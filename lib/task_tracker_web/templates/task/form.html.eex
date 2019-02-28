@@ -19,7 +19,7 @@
 
   <div class="form-group">
     <%= label f, :time %>
-    <%= number_input f, :time, class: "form-control" %>
+    <%= number_input f, :time, step: 15, class: "form-control" %>
     <%= error_tag f, :time %>
   </div>
 

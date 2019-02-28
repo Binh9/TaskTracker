@@ -4,10 +4,10 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Desc</th>
-      <th>Time</th>
+      <th>Description</th>
+      <th>Time Spent</th>
       <th>Completion</th>
-      <th>User</th>
+      <th>Assigned To</th>
 
       <th></th>
     </tr>

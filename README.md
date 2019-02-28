@@ -1,8 +1,8 @@
 # TaskTracker
 
 ## Design Choices 
-  * Each task has title (required), description (optional), completed (required, but default is false), time (required, but default is 0), user (required). Title, completion, time and user fields are made required because these fields represent essential information required for creating a task. Description is optional because some tasks can be trivial and not require description at all. Time represents amount of time (minutes) spent working on the given task.
-  * When a user tries to create a task or update the existing task, the time field can be only an increment of 15 minutes. Time is shown in minutes.
+  * Each task has title (required), description (optional), completed (required, but default is false), time (required, but default is 0), user (required). Title, completion, time and user fields are made required because these fields represent essential information required for creating a task. Description is optional because some tasks can be trivial and not require description at all. Time represents amount of time (minutes) spent working on the assigned task.
+  * When a user tries to create a task or update the existing task, the time field can be only an increment of 15 minutes. 
   
 
 To start your Phoenix server:

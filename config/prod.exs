@@ -68,4 +68,30 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs which should be versioned
 # separately.
-import_config "prod.secret.exs"
+#import_config "prod.secret.exs"
+
+get_secret = fn name ->
+  base = Path.expand("~/.config/task_tracker")
+  File.mkdir_p!(base)
+  path = Path.join(base, name)
+  unless File.exists?(path) do
+    secret = Base.encode16(:crypto.strong_rand_bytes(32))
+    File.write!(path, secret)
+  end
+  String.trim(File.read!(path))
+end
+
+config :task_tracker, TaskTrackerWeb.Endpoint,
+  secret_key_base: get_secret.("key_base");
+
+  #secret_key_base: "A4VpDq4vRmYBqHxxWMAKtIqNgNtRtKfjHvUWIlYgO4nP3ylP2DbPIwXXDC7aOLtw"
+
+# Configure your database
+config :task_tracker, TaskTracker.Repo,
+  username: "tasktracker",
+  password: get_secret.("db_pass"),
+  database: "task_tracker_prod",
+  pool_size: 15
+
+
+

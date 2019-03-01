@@ -1,12 +1,12 @@
 #!/bin/bash
 
 export MIX_ENV=prod
-export PORT=4747
+export PORT=4793
 
 echo "Stopping old copy of app, if any..."
 
-_build/prod/rel/task_tracker/bin/task_tracker stop || true
+_build/prod/rel/tasktracker/bin/tasktracker stop || true
 
 echo "Starting app..."
 
-_build/prod/rel/task_tracker/bin/task_tracker start
+_build/prod/rel/tasktracker/bin/tasktracker start

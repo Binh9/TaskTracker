@@ -1,11 +1,13 @@
-export PORT=4974
+#!/bin/bash
+
+export PORT=4793
 export NODEBIN=`pwd`/assets/node_modules/.bin
 export PATH="$PATH:$NODEBIN"
 export MIX_ENV=prod
 
 echo "Building..."
 
-mkdir -p ~/.config/task_tracker
+mkdir -p ~/.config/tasktracker
 
 mix deps.get
 
@@ -13,7 +15,7 @@ mix deps.get
 (cd assets && node_modules/.bin/webpack --mode production)
 mix phx.digest
 mix compile
-# Run so db starts up
+
 mix run priv/repo/seeds.exs
 
 echo "Generating release..."

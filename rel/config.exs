@@ -31,13 +31,13 @@ environment :dev do
   # dev mode.
   set dev_mode: true
   set include_erts: false
-  set cookie: :"eZu}jIFbMk::1XkHJ7G/4&?(kfR4S!7.=>`(XC>8`,LaF@_`o07:PX@^_%~6z:v["
+  set cookie: :"XQ6i2cr86LD56NsbUFG)?`<UGdX&fNKx~{^Byf4*h|&(>ZekcULCEG_o~,cl;.y`"
 end
 
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: :"c!Nam6hhWvYJ0wwTA%?F*&Qk}9_f6XACzuy^Ai7iY5bz=`eSVj*:W1SV~4G@N0HU"
+  set cookie: :"6~OY&6<?YC(6|h}b$C;Oe77$l1$1@:)]rs[F@HTAPD0FD6i)ZR<KLsw.N$$EcAT%"
   set vm_args: "rel/vm.args"
 end
 

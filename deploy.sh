@@ -15,6 +15,7 @@ mix deps.get
 (cd assets && node_modules/.bin/webpack --mode production)
 mix phx.digest
 mix compile
+mix ecto.migrate
 
 mix run priv/repo/seeds.exs
 

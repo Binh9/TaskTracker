@@ -19,7 +19,6 @@
       <td><%= task.desc %></td>
       <td><%= task.time %></td>
       <td><%= task.completion %></td>
-      <!-- <td><%= task.user %></td> -->
       <td><%= if task.user_id && TaskTracker.Users.get_user(task.user_id) do TaskTracker.Users.get_user(task.user_id).email
       end %> </td>
       <td>
@@ -36,4 +35,6 @@
   </tbody>
 </table>
 
+<%= if @current_user do %>
 <span><%= link "New Task", to: Routes.task_path(@conn, :new), class: "btn btn-primary" %></span>
+<% end %>

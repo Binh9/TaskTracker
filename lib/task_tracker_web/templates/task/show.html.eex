@@ -24,7 +24,7 @@
 
   <li class="list-group-item">
     <strong>User:</strong>
-    <%= @task.user %>
+    <%= TaskTracker.Users.get_user(@task.user_id).email %>
   </li>
 
 </ul>

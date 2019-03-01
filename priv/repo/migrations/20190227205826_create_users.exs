@@ -6,8 +6,10 @@ defmodule TaskTracker.Repo.Migrations.CreateUsers do
       add :email, :string
       add :admin, :boolean, default: false, null: false
 
+
       timestamps()
     end
+    create unique_index(:users, [:email])
 
     alter table(:tasks) do
     	remove :user

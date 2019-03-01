@@ -7,6 +7,8 @@ defmodule TaskTracker.Users.User do
     field :admin, :boolean, default: false
     field :email, :string
 
+    has_many :tasks, TaskTracker.Tasks.Task, foreign_key: :user_id
+
     timestamps()
   end
 

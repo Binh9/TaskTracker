@@ -18,23 +18,26 @@
   </div>
 
   <div class="form-group">
-    <%= label f, :time %>
-    <%= number_input f, :time, step: 15, class: "form-control" %>
-    <%= error_tag f, :time %>
-  </div>
-
-  <div class="form-group">
     <%= label f, :completion %>
     <%= checkbox f, :completion, class: "form-control" %>
     <%= error_tag f, :completion %>
   </div>
 
   <div class="form-group">
-    <%= label f, :user_id %>
-    <%= select f, :user_id, Enum.map(TaskTracker.Users.list_users, &{&1.email, &1.id}), 
-    class: "form-control" %>
-    <%= error_tag f, :user_id %>
+    <%= label f, :underling %>
+    <%= select f, :user_id, @underlings, class: "form-control" %>
+    <%= error_tag f, :unser_id %>
   </div>
+
+  <div class="form-group">
+    <%= label f, :Manager%>
+    <%= text_input f, :manager_id, class: "form-control", value: @current_user.id %>
+    <%= error_tag f, :manager_id %>
+  </div>
+
+  <%= if @current_user do %>
+    <p> Time <p>
+  <% end %>
 
   <div>
     <%= submit "Save", class: "btn btn-primary" %>

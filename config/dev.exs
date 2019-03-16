@@ -70,6 +70,6 @@ config :phoenix, :plug_init_mode, :runtime
 config :task_tracker, TaskTracker.Repo,
   username: "tasktracker",
   password: "12345",
-  database: "task_tracker_dev",
+  database: "task_tracker2_dev",
   hostname: "localhost",
   pool_size: 10

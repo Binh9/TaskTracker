@@ -8,6 +8,7 @@ defmodule TaskTracker.Repo.Migrations.CreateTasks do
       add :time, :integer
       add :completion, :boolean, default: false, null: false
       add :user, :string
+      add :manager, :string
 
       timestamps()
     end

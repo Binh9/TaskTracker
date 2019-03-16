@@ -2,9 +2,16 @@ defmodule TaskTrackerWeb.TimeblockControllerTest do
   use TaskTrackerWeb.ConnCase
 
   alias TaskTracker.Timeblocks
+  alias TaskTracker.Timeblocks.Timeblock
 
-  @create_attrs %{end: "some end", start: "some start"}
-  @update_attrs %{end: "some updated end", start: "some updated start"}
+  @create_attrs %{
+    end: "some end",
+    start: "some start"
+  }
+  @update_attrs %{
+    end: "some updated end",
+    start: "some updated start"
+  }
   @invalid_attrs %{end: nil, start: nil}
 
   def fixture(:timeblock) do
@@ -12,60 +19,56 @@ defmodule TaskTrackerWeb.TimeblockControllerTest do
     timeblock
   end
 
+  setup %{conn: conn} do
+    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+  end
+
   describe "index" do
     test "lists all timeblocks", %{conn: conn} do
       conn = get(conn, Routes.timeblock_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Timeblocks"
-    end
-  end
-
-  describe "new timeblock" do
-    test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.timeblock_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Timeblock"
+      assert json_response(conn, 200)["data"] == []
     end
   end
 
   describe "create timeblock" do
-    test "redirects to show when data is valid", %{conn: conn} do
+    test "renders timeblock when data is valid", %{conn: conn} do
       conn = post(conn, Routes.timeblock_path(conn, :create), timeblock: @create_attrs)
-
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.timeblock_path(conn, :show, id)
+      assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.timeblock_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Timeblock"
+
+      assert %{
+               "id" => id,
+               "end" => "some end",
+               "start" => "some start"
+             } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.timeblock_path(conn, :create), timeblock: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Timeblock"
-    end
-  end
-
-  describe "edit timeblock" do
-    setup [:create_timeblock]
-
-    test "renders form for editing chosen timeblock", %{conn: conn, timeblock: timeblock} do
-      conn = get(conn, Routes.timeblock_path(conn, :edit, timeblock))
-      assert html_response(conn, 200) =~ "Edit Timeblock"
+      assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
   describe "update timeblock" do
     setup [:create_timeblock]
 
-    test "redirects when data is valid", %{conn: conn, timeblock: timeblock} do
+    test "renders timeblock when data is valid", %{conn: conn, timeblock: %Timeblock{id: id} = timeblock} do
       conn = put(conn, Routes.timeblock_path(conn, :update, timeblock), timeblock: @update_attrs)
-      assert redirected_to(conn) == Routes.timeblock_path(conn, :show, timeblock)
+      assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
-      conn = get(conn, Routes.timeblock_path(conn, :show, timeblock))
-      assert html_response(conn, 200) =~ "some updated end"
+      conn = get(conn, Routes.timeblock_path(conn, :show, id))
+
+      assert %{
+               "id" => id,
+               "end" => "some updated end",
+               "start" => "some updated start"
+             } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, timeblock: timeblock} do
       conn = put(conn, Routes.timeblock_path(conn, :update, timeblock), timeblock: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Timeblock"
+      assert json_response(conn, 422)["errors"] != %{}
     end
   end
 
@@ -74,7 +77,8 @@ defmodule TaskTrackerWeb.TimeblockControllerTest do
 
     test "deletes chosen timeblock", %{conn: conn, timeblock: timeblock} do
       conn = delete(conn, Routes.timeblock_path(conn, :delete, timeblock))
-      assert redirected_to(conn) == Routes.timeblock_path(conn, :index)
+      assert response(conn, 204)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.timeblock_path(conn, :show, timeblock))
       end

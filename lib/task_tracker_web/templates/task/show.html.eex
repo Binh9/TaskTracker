@@ -1,4 +1,4 @@
-<h1>Show Task</h1>
+<h1><%= @task.title %></h1>
 
 <ul class="list-group">
 
@@ -14,7 +14,12 @@
 
   <li class="list-group-item">
     <strong>Time:</strong>
-    <%= @task.time %>
+    <% in_sec = List.foldl(TaskTracker.Timeblocks.list_tb_of_task(@task.id), 0, fn x, acc -> 
+      {:ok, datetime_start, 0} = DateTime.from_iso8601(x.start)
+      {:ok, datetime_end, 0} = DateTime.from_iso8601(x.end)
+      acc + DateTime.diff(datetime_end, datetime_start, :seconds)
+    end) %>
+    <%= Float.round(in_hours = in_sec / 3600, 1) %>
   </li>
 
   <li class="list-group-item">
@@ -25,6 +30,11 @@
   <li class="list-group-item">
     <strong>Assigned To:</strong>
     <%= TaskTracker.Users.get_user(@task.user_id).email %>
+  </li>
+
+  <li class="list-group-item">
+    <strong>Assigned By:</strong>
+    <%= TaskTracker.Users.get_user(@task.manager_id).email %>
   </li>
 
 </ul>

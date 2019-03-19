@@ -22,6 +22,15 @@ defmodule TaskTracker.Users do
   end
 
   @doc """
+  List other users except the given id
+  """
+  def list_others(id) do
+    query  = from u in User,
+                where: u.id != ^id
+    Repo.all(query)
+  end
+
+  @doc """
   Gets a single user.
 
   Raises `Ecto.NoResultsError` if the User does not exist.

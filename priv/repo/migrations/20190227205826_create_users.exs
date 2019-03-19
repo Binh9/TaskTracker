@@ -13,7 +13,9 @@ defmodule TaskTracker.Repo.Migrations.CreateUsers do
 
     alter table(:tasks) do
     	remove :user
+      remove :manager
     	add :user_id, references(:users, on_delete: :delete_all), null: true
+      add :manager_id, references(:users, on_delete: :delete_all), null: true
     end
 
   end

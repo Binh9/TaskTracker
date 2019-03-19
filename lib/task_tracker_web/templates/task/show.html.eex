@@ -23,7 +23,7 @@
   </li>
 
   <li class="list-group-item">
-    <strong>User:</strong>
+    <strong>Assigned To:</strong>
     <%= TaskTracker.Users.get_user(@task.user_id).email %>
   </li>
 

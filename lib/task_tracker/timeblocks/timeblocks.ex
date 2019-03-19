@@ -21,6 +21,12 @@ defmodule TaskTracker.Timeblocks do
     Repo.all(Timeblock)
   end
 
+  def list_tb_of_task(id) do
+      query = from tb in Timeblock,
+              where: tb.task_id == ^id
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single timeblock.
 
@@ -52,7 +58,8 @@ defmodule TaskTracker.Timeblocks do
   def create_timeblock(attrs \\ %{}) do
     %Timeblock{}
     |> Timeblock.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert(on_conflict: :replace_all,
+      conflict_target: [:task_id, :start])
   end
 
   @doc """

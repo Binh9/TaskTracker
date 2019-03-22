@@ -11,16 +11,26 @@
     <div class="container">
       <nav class="navbar navbar-expand-sm navbar-light bg-white">
         <div class="col-4">
-          <a class="navbar-brand" href="/">Task Tracker</a>
+          <%= if @current_user do %>
+              <a class="navbar-brand" href="/managements">Task Tracker</a>
+          <% else %>
+              <a class="navbar-brand" href="/">Task Tracker</a>
+          <% end %>
         </div>
         <div class="col-4">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/tasks">Tasks</a>
-            </li>
+            <%= if @current_user do %>
+              <li class="nav-item active">
+                <a class="nav-link" href="/managements">Home</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="/tasks">Tasks</a>
+              </li>
+            <% else %>
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Home</a>
+              </li>
+            <% end %>
           </ul>
         </div>
         <div class="col-4">

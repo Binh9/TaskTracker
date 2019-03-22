@@ -18,6 +18,7 @@ defmodule TaskTracker.Tasks do
 
   """
   def list_tasks do
+    IO.inspect(Task)
     Repo.all(Task)
     |> Repo.preload(:user)
   end
@@ -103,6 +104,7 @@ defmodule TaskTracker.Tasks do
 
   """
   def change_task(%Task{} = task) do
+    #IO.inspect(task)
     Task.changeset(task, %{})
   end
 end

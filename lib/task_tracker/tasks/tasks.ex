@@ -21,6 +21,8 @@ defmodule TaskTracker.Tasks do
     IO.inspect(Task)
     Repo.all(Task)
     |> Repo.preload(:user)
+    |> Repo.preload(:manager)
+    |> Repo.preload(:timeblocks)
   end
 
   @doc """
@@ -40,6 +42,7 @@ defmodule TaskTracker.Tasks do
   def get_task!(id) do
     Repo.get!(Task, id)
     |> Repo.preload(:user)
+    |> Repo.preload(:timeblocks)
   end
 
   @doc """

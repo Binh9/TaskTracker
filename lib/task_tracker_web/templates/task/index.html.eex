@@ -1,5 +1,48 @@
 <h1>Listing Tasks</h1>
 
+<h2>My Tasks</h2>
+
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Time Spent</th>
+      <th>Completion</th>
+      <th>Assigned By</th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for task <- @tasks do %>
+    <%= if task.user_id == @current_user.id do %>
+      <tr>
+        <td><%= task.title %></td>
+        <td><%= task.desc %></td>
+        <td><% in_sec = List.foldl(TaskTracker.Timeblocks.list_tb_of_task(task.id), 0, fn x, acc -> 
+          {:ok, datetime_start, 0} = DateTime.from_iso8601(x.start)
+          {:ok, datetime_end, 0} = DateTime.from_iso8601(x.end)
+          acc + DateTime.diff(datetime_end, datetime_start, :seconds)
+          end) %>
+          <%= Float.round(in_hours = in_sec / 3600, 1) %>
+        </td>
+        <td><%= task.completion %></td>
+        <td><%= if task.manager_id && TaskTracker.Users.get_user(task.manager_id) do TaskTracker.Users.get_user(task.manager_id).email
+        end %> </td>
+        <td>
+          <%= link "Show", to: Routes.task_path(@conn, :show, task),
+              class: "btn btn-secondary" %>
+          <%= link "Edit", to: Routes.task_path(@conn, :edit, task),
+              class: "btn btn-info" %>
+        </td>
+      </tr>
+    <% end %>
+<% end %>
+  </tbody>
+</table>
+
+
+<h2>Underlings' Tasks</h2>
+
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -8,29 +51,35 @@
       <th>Time Spent</th>
       <th>Completion</th>
       <th>Assigned To</th>
-
-      <th></th>
     </tr>
   </thead>
   <tbody>
 <%= for task <- @tasks do %>
-    <tr>
-      <td><%= task.title %></td>
-      <td><%= task.desc %></td>
-      <td><%= task.time %></td>
-      <td><%= task.completion %></td>
-      <td><%= if task.user_id && TaskTracker.Users.get_user(task.user_id) do TaskTracker.Users.get_user(task.user_id).email
-      end %> </td>
-      <td>
-        <%= link "Show", to: Routes.task_path(@conn, :show, task),
-            class: "btn btn-secondary" %>
-        <%= link "Edit", to: Routes.task_path(@conn, :edit, task),
-            class: "btn btn-info" %>
-        <%= link "Delete", to: Routes.task_path(@conn, :delete, task), 
-            method: :delete, data: [confirm: "Are you sure?"],
-            class: "btn btn-danger" %>
-      </td>
-    </tr>
+    <%= if task.manager_id == @current_user.id do %>
+      <tr>
+        <td><%= task.title %></td>
+        <td><%= task.desc %></td>
+        <td><% in_sec = List.foldl(TaskTracker.Timeblocks.list_tb_of_task(task.id), 0, fn x, acc -> 
+          {:ok, datetime_start, 0} = DateTime.from_iso8601(x.start)
+          {:ok, datetime_end, 0} = DateTime.from_iso8601(x.end)
+          acc + DateTime.diff(datetime_end, datetime_start, :seconds)
+          end) %>
+          <%= Float.round(in_hours = in_sec / 3600, 1) %>
+        </td>
+        <td><%= task.completion %></td>
+        <td><%= if task.user_id && TaskTracker.Users.get_user(task.user_id) do TaskTracker.Users.get_user(task.user_id).email
+        end %> </td>
+        <td>
+          <%= link "Show", to: Routes.task_path(@conn, :show, task),
+              class: "btn btn-secondary" %>
+          <%= link "Edit", to: Routes.task_path(@conn, :edit, task),
+              class: "btn btn-info" %>
+          <%= link "Delete", to: Routes.task_path(@conn, :delete, task), 
+              method: :delete, data: [confirm: "Are you sure?"],
+              class: "btn btn-danger" %>
+        </td>
+      </tr>
+    <% end %>
 <% end %>
   </tbody>
 </table>

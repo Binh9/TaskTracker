@@ -12,10 +12,10 @@ defmodule TaskTracker.Repo.Migrations.CreateUsers do
     create unique_index(:users, [:email])
 
     alter table(:tasks) do
-    	remove :user
-      remove :manager
-    	add :user_id, references(:users, on_delete: :delete_all), null: true
-      add :manager_id, references(:users, on_delete: :delete_all), null: true
+    	#remove :user
+      #remove :manager
+    	add :user_id, references(:users, on_delete: :delete_all)
+      add :manager_id, references(:users, on_delete: :delete_all)
     end
 
   end

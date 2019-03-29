@@ -6,6 +6,7 @@ defmodule TaskTracker.Timeblocks.Timeblock do
   schema "timeblocks" do
     field :end, :string
     field :start, :string
+    
     belongs_to :task, TaskTracker.Tasks.Task, foreign_key: :task_id
 
     timestamps()
@@ -16,5 +17,6 @@ defmodule TaskTracker.Timeblocks.Timeblock do
     timeblock
     |> cast(attrs, [:start, :end, :task_id])
     |> validate_required([:start, :end, :task_id])
+    |> unique_constraint(:task_id, name: :timeblocks_task_id_start_index)
   end
 end

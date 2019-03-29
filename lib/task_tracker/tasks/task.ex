@@ -6,11 +6,11 @@ defmodule TaskTracker.Tasks.Task do
   schema "tasks" do
     field :completion, :boolean, default: false
     field :desc, :string
-    field :time, :integer, default: 0
     field :title, :string
 
     belongs_to :user, TaskTracker.Users.User, foreign_key: :user_id
     belongs_to :manager, TaskTracker.Users.User, foreign_key: :manager_id
+    has_many :timeblocks, TaskTracker.Timeblocks.Timeblock
 
     timestamps()
   end
@@ -18,7 +18,7 @@ defmodule TaskTracker.Tasks.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:title, :desc, :time, :completion, :user_id, :manager_id])
-    |> validate_required([:title, :time, :completion, :user_id, :manager_id])
+    |> cast(attrs, [:title, :desc, :completion, :user_id, :manager_id])
+    |> validate_required([:title, :completion, :user_id, :manager_id])
   end
 end

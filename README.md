@@ -1,10 +1,14 @@
 # TaskTracker
 
 ## Design Choices 
-  * Each task has title (required), description (optional), completed (required, but default is false), time (required, but default is 0), user (required). Title, completion, time and user fields are made required because these fields represent essential information required for creating a task. Description is optional because some tasks can be trivial and not require description at all. Time represents amount of time (minutes) spent working on the assigned task.
-  * There are no duplicate emails allowed when registering a new user.
-  *
-  *
+  * Features as per assignment instructions;
+  * Only if login in as some user --> can add a new task;
+  * When logged-in, pressing home opens a list of managers and underlings. 
+  * There is also list of tasks available (both for employee and the underlings) under Tasks tab.
+  * Even when the underling is deleted, we still want to display the previous assignments for tracking purposes.
+  * Edit privileges for manager and employee are different. For example, manager can reassign the assignment.
+  * Employee are not allowed to delete the tasks and managers that were assigned to them. 
+  * Managers can remove the underlings, look/edit/delete the underlings tasks.
   
 
 To start your Phoenix server:

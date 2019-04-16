@@ -6,8 +6,9 @@ defmodule TaskTracker.Users.User do
   schema "users" do
     field :admin, :boolean, default: false
     field :email, :string
+    field :password_hash, :string
 
-    has_many :tasks, TaskTracker.Tasks.Task, foreign_key: :user_id
+    has_many :tasks, TaskTracker.Tasks.Task
 
     timestamps()
   end
@@ -15,8 +16,8 @@ defmodule TaskTracker.Users.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :admin])
-    |> validate_required([:email, :admin])
+    |> cast(attrs, [:email, :password_hash, :admin])
     |> unique_constraint(:email)
+    |> validate_required([:email, :password_hash, :admin])
   end
 end

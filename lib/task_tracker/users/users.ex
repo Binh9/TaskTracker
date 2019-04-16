@@ -5,7 +5,6 @@ defmodule TaskTracker.Users do
 
   import Ecto.Query, warn: false
   alias TaskTracker.Repo
-
   alias TaskTracker.Users.User
 
   @doc """
@@ -19,17 +18,28 @@ defmodule TaskTracker.Users do
   """
   def list_users do
     Repo.all(User)
-    |> Repo.preload(:tasks)
+  end
+
+  def get_user_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
+
+  def get_and_auth_user(email, password) do
+    user = get_user_by_email(email)
+    case Comeonin.Argon2.check_pass(user, password) do
+      {:ok, user} -> user
+      _else       -> nil
+    end
   end
 
   @doc """
-  List other users except the given id
+  Authenticates a user.
+
+  Returns {:ok, user} on success, or {:error, msg} on failure.
   """
-  def list_others(id) do
-    query  = from u in User,
-                where: u.id != ^id
-    Repo.all(query)
-    |> Repo.preload(:tasks)
+  def authenticate_user(email, password) do
+    Repo.get_by(User, email: email)
+    |> Comeonin.Argon2.check_pass(password)
   end
 
   @doc """
@@ -46,20 +56,7 @@ defmodule TaskTracker.Users do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id) do
-    Repo.get!(User, id)
-    |> Repo.preload(:tasks)
-  end
-
-  def get_user(id) do
-    Repo.get(User, id)
-    |> Repo.preload(:tasks)
-  end
-
-  def get_user_by_email(email) do
-    Repo.get_by(User, email: email)
-    |> Repo.preload(:tasks)
-  end
+  def get_user!(id), do: Repo.get!(User, id)
 
   @doc """
   Creates a user.
@@ -73,7 +70,8 @@ defmodule TaskTracker.Users do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_user(attrs \\ %{}) do
+  def create_user(email, password \\ %{}) do
+    attrs = %{email: email, password_hash: Comeonin.Argon2.add_hash(password).password_hash, admin: false}
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()

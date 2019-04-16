@@ -11,7 +11,7 @@ use Mix.Config
 # before starting your production server.
 config :task_tracker, TaskTrackerWeb.Endpoint,
   http: [:inet6, port: System.get_env("PORT") || 4000],
-  url: [host: "tasks1.concola9.com", port: 80],
+  url: [host: "tasks3.concola9.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json",
   server: true,
   root: ".",
@@ -93,7 +93,7 @@ config :task_tracker, TaskTrackerWeb.Endpoint,
 config :task_tracker, TaskTracker.Repo,
   username: "tasktracker",
   password: "12345", # get_secret.("db_pass"),
-  database: "task_tracker2_prod",
+  database: "task_tracker3_prod",
   pool_size: 15
 
 

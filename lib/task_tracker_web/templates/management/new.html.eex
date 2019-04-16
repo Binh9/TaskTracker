@@ -1,5 +1,0 @@
-<h1>New Management</h1>
-
-<%= render "form.html", Map.put(assigns, :action, Routes.management_path(@conn, :create)) %>
-
-<span><%= link "Back", to: Routes.management_path(@conn, :index), class: "btn btn-primary" %></span>

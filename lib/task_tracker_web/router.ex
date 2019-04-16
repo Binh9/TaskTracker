@@ -7,7 +7,7 @@ defmodule TaskTrackerWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug TaskTrackerWeb.Plugs.FetchSession
+    # plug TaskTrackerWeb.Plugs.FetchSession
   end
 
   pipeline :ajax do
@@ -23,22 +23,17 @@ defmodule TaskTrackerWeb.Router do
 
   scope "/", TaskTrackerWeb do
     pipe_through :browser
+    
 
     get "/", PageController, :index
-    resources "/tasks", TaskController
-    resources "/users", UserController
-    resources "/timeblocks", TimeblockController, except: [:new, :edit]
-    resources "/managements", ManagementController
-    resources "/sessions", SessionController, only: [:create, :delete], singleton: true
-  end
-
-  scope "/ajax", TaskTrackerWeb do
-    pipe_through :ajax
-    resources "/timeblocks", TimeblockController, except: [:new, :edit]
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", TaskTrackerWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/v1", TaskTrackerWeb do
+    pipe_through :api
+
+    resources "/users", UserController, except: [:new, :edit]
+    resources "/tasks", TaskController, except: [:new, :edit]
+    post "/auth", AuthController, :authenticate
+  end
 end

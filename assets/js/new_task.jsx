@@ -16,27 +16,29 @@ function NewTask(props) {
 		<h1>Creating a New Task</h1>
 		<div className="form-group">
 			<strong>Title:</strong>
-			<input id="task_title_edit" />
+			<input id="task_title_edit" placeholder="Required field" className="form-control"/>
 		</div>
 
 		<div className="form-group">
 			<strong>Description:</strong>
-			<input id="task_desc_edit" />
+			<input id="task_desc_edit" placeholder="Optional field" className="form-control"/>
 		</div>
 
 		<div className="form-group">
 			<strong>Time (in 15-minute increments):</strong>
-			<input type="number" id="task_time_edit" defaultValue="0" step="15"/>
+			<input type="number" id="task_time_edit" defaultValue="0" min="0" step="15" readOnly="readOnly" className="form-control"/>
+			<button type="button" className="btn btn-outline-dark" id="+15" onClick={() => { $("#task_time_edit").val(parseInt($("#task_time_edit").val()) + 15) }}>+15-minutes</button>
+			<button type="button" className="btn btn-outline-dark" id="-15" onClick={() => { $("#task_time_edit").val(parseInt($("#task_time_edit").val()) - 15) }}>-15-minutes</button>
 		</div>
 
 		<div className="form-group">
 			<strong>Completion:</strong>
-			<input id="task_compl_edit" type="checkbox" defaultChecked={false} />
+			<input id="task_compl_edit" type="checkbox" defaultChecked={false} className="form-control"/>
 		</div>
 
 		<div className="form-group">
 			<strong>Assign to:</strong>
-			<select id="task_assign_to_edit">
+			<select id="task_assign_to_edit" className="form-control">
 				{uusers}
 			</select>
 		</div>

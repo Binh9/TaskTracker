@@ -2,11 +2,15 @@ import React from 'react';
 import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import api from './api'
-
+var sess;
 function TaskList(props) {
 	let {tasks, session} = props;
-
+	console.log("TASKLIKST")
+	console.log(props)
+	
 	if (session) {
+		window.sess = session;
+		//console.log(window.sess)
 		let ttasks = _.map(tasks, (t) =>{
 			return <Task key={t.id} task={t} />
 		});
@@ -37,12 +41,13 @@ function TaskList(props) {
 	}
 }
 
+
 function Task(props) {
 	let {task} = props;
 
 	let power;
-
-	if (true) {
+	//console.log("HERE", window.sess.user_email, task.user_id)
+	if (window.sess.user_email == task.user_id) {
 		power = <td>
 		    <Link to={"/show_task"} className="btn btn-primary" onClick={() => { api.show_task(task.id) }} >Show</Link>
 		    <Link to={"/edit_task"} className="btn btn-info" onClick={() => { api.edit_task(task.id) }} >Edit</Link>

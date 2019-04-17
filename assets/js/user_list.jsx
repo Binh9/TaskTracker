@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link, BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import api from './api'
 
 function UserList(props) {
 	console.log(props)
@@ -36,6 +38,9 @@ function User(props) {
 		<td>{user.id}</td>
 		<td>{user.email}</td>
 		<td>{user.admin ? "true" : "false"}</td>
+		<td>
+			<Link to={"/users"} className="btn btn-danger" onClick={() => { api.delete_user(user.id) }}>Delete</Link>
+		</td>
 	</tr>
 }
 

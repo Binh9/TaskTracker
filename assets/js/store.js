@@ -22,6 +22,7 @@ Application state layout
 function tasks(state = [], action) {
 	switch (action.type) {
 		case 'TASK_LIST':
+		//console.log(action, action.data);
 			return action.data;
 		default:
 			return state;
@@ -40,6 +41,7 @@ function users(state = [], action) {
 function session(state = null, action) {
 	switch (action.type) {
   		case 'NEW_SESSION':
+  			window.sess = action.data;
     		return action.data;
     	case 'OUT_SESSION':
     		return null;
@@ -61,9 +63,11 @@ function root_reducer(state0, action) {
 	console.log("reducer", state0, action);
 
 	let reducer = combineReducers({ tasks, users, session, current_task });
+	//console.log("INSIDE REDEUCER", reducer);
 	let state1 = reducer(state0, action);
 
-	console.log("reducer1", state1);
+
+	console.log("new state", state1);
 
 	return deepFreeze(state1);
 

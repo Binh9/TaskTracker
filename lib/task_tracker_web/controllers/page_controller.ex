@@ -5,7 +5,10 @@ defmodule TaskTrackerWeb.PageController do
 
   def index(conn, _params) do
   	tasks = Tasks.list_tasks()
-  	|> Enum.map(&(Map.take(&1, [:id, :title, :desc, :time, :completion, :user])))
+  	|> Enum.map(&(Map.take(&1, [:id, :title, :desc, :time, :completion, :user_id, :user])))
+
+    IO.inspect("ssssss")
+    IO.inspect(tasks)
 
   	users = TaskTracker.Users.list_users()
     |> Enum.map(&(Map.take(&1, [:id, :email, :admin])))

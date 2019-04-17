@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import api from './api'
 
 function Header(props) {
-	console.log(props);
+	//console.log(props);
 	let {session} = props;
 	let session_info;
 	if (session == null) {
@@ -20,7 +20,7 @@ function Header(props) {
 	else {
 		session_info = 
 		<div className="my-2">
-			<p> Logged in as {session.user_id}</p>
+			<p> Logged in as {session.user_email}</p>
 			<button className="btn btn-danger" onClick={() => {api.out_session()}}>Logout</button>
 		</div>
 	}

@@ -16,7 +16,7 @@ export default function NewUser(props) {
 		</div>
 	    	
 	    <div>
-	        <Link to={"/"} className="btn btn-primary btn-lg" onClick={() => { api.create_user($('#new-email').val(), $('#new-pw').val()) }}>Register</Link>
+	        <Link to={"/"} className="btn btn-primary" onClick={() => { api.create_user($('#new-email').val(), $('#new-pw').val()) }}>Register</Link>
 	    </div>
     </div>
 }

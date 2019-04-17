@@ -7,10 +7,10 @@ import { connect } from 'react-redux';
 function ShowTask(props) {
 	let {current_task} = props;
 
-  console.log(props);
+  //console.log(props);
 
 	if (current_task) {
-    console.log(current_task);
+    
 		return <div>
 			<h1>{current_task.title}</h1>
 			<ul className="list-group">
@@ -35,12 +35,11 @@ function ShowTask(props) {
   				</li>
 
   				<li className="list-group-item">
-    				<strong>Assigned By:</strong>
-    				<p>{current_task.assigned_by}</p>
+    				<strong>Assigned To:</strong>
+    				<p>{current_task.user_id}</p>
   				</li>
 			</ul>
 			<div>
-				<Link to={"/edit_task"} className="btn btn-primary" onClick={() => { api.edit_task(current_task.id) }} >Edit</Link>
 				<Link to={"/tasks"} className="btn btn-danger">Back</Link>
 			</div>	
 		</div>

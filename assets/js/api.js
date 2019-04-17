@@ -24,6 +24,7 @@ class TheServer {
       contentType: "application/json; charset=UTF-8",
       data: "",
       success: (resp) => {
+        console.log(resp)
         store.dispatch({
           type: 'UPDATE_CURRENT_TASK',
           data: null
@@ -45,10 +46,13 @@ class TheServer {
       success: (resp) => {
         store.dispatch({
           type: 'NEW_SESSION',
-          data: resp.data
-        })
-        //window.location.href = "./"; 
+          data: resp.data,
+        }),
+        this.fetch_users()
       },
+      error: () => {
+        alert("Incorrect email or password")
+      }
     });
   }
 
@@ -66,7 +70,6 @@ class TheServer {
       contentType: "application/json; charset=UTF-8",
       data: JSON.stringify(data),
       success: callback,
-      // more indepth error
     });
   }
 
@@ -90,49 +93,67 @@ class TheServer {
       },
       error: () => {
          alert('This Email is already taken! Please try another email!');
-         //window.location.href = "./";
       }
     });
+  }
+
+  // Delete the chosen user
+  delete_user(id) {
+    if (window.confirm('Are you sure?')) {
+      $.ajax("/api/v1/users/" + id, {
+        method: "delete",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        data: "",
+        success: (resp) => {
+          if (id == window.sess.user_id) {
+          store.dispatch({
+            type: 'OUT_SESSION',
+            data: null
+          })
+          }
+          this.fetch_users();
+        }
+      });
+    }
   }
 
   create_task() {
     let title = $('#task_title_edit').val();
     let desc = $('#task_desc_edit').val();
     let time = $('#task_time_edit').val();
-    let completion;// = $('#task_compl_edit').val();
+    let completion; 
     if ($('#task_compl_edit').is(":checked")) {
-      completion = "true"
+      completion = "true";
     } else {
-      completion = "false"
+      completion = "false";
     }
     let assigned_to = $('#task_assign_to_edit').val();
 
-    //if (time % 15 == 0) {
-      let text = JSON.stringify({
-        task: {
-          title: title,
-          desc: desc,
-          time: time,
-          completion: completion,
-          user_id: assigned_to,
-        }
-      });
+    let text = JSON.stringify({
+      task: {
+        title: title,
+        desc: desc,
+        time: time,
+        completion: completion,
+        user_id: assigned_to,
+      }
+    });
 
-      console.log(text);
+    // console.log(text);
 
-      $.ajax("/api/v1/tasks/", {
-        method: "post",
-        dataType: "json",
-        contentType: "application/json; charset=UTF-8",
-        data: text,
-        success: (resp) => {
-          this.fetch_tasks();
-        }
-      });
-    //}
-    //else {
-    //  console.log("time increment of 15 only");
-    //}
+    $.ajax("/api/v1/tasks", {
+      method: "post",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: text,
+      success: (resp) => {
+        this.fetch_tasks();
+      },
+      error: (resp) => {
+        alert('Task Creation Failed -- invalid fields!')
+      }
+    });
   }
 
   // Set the current task to chosen for show
@@ -187,42 +208,40 @@ class TheServer {
     let title = $('#task_title_edit').val();
     let desc = $('#task_desc_edit').val();
     let time = $('#task_time_edit').val();
-    let completion = $('#task_compl_edit').val();
+    let completion; 
+    if ($('#task_compl_edit').is(":checked")) {
+      completion = "true";
+    } else {
+      completion = "false";
+    }
     let assigned_to = $('#task_assign_to_edit').val();
 
-    if (time % 15 == 0) {
-      let text = JSON.stringify({
-        task: {
-          id: id,
-          title: title,
-          desc: desc,
-          time: time,
-          completion: completion,
-          user_id: assigned_to
-        }
-      });
+    
+    let text = JSON.stringify({
+      task: {
+        id: id,
+        title: title,
+        desc: desc,
+        time: time,
+        completion: completion,
+        user_id: assigned_to
+      }
+    });
 
-      console.log("in if");
-
-      $.ajax("/api/v1/tasks/" + id, {
-        method: "put",
-        dataType: "json",
-        contentType: "application/json; charset=UTF-8",
-        data: text,
-        success: (resp) => {
-          store.dispatch({
-            type: 'UPDATE_CURRENT_TASK',
-            data: null
-          });
-          this.fetch_tasks();
-          console.log("success");
-        }
-      });
-    }
-    else {
-      console.log("time increment of 15 only");
-    }
-
+    $.ajax("/api/v1/tasks/" + id, {
+      method: "put",
+      dataType: "json",
+      contentType: "application/json; charset=UTF-8",
+      data: text,
+      success: (resp) => {
+        store.dispatch({
+          type: 'UPDATE_CURRENT_TASK',
+          data: null
+        });
+        this.fetch_tasks();
+        console.log("success");
+      }
+    });
   }
 
 

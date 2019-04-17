@@ -19,6 +19,6 @@ defmodule TaskTracker.Tasks.Task do
     task
     |> cast(attrs, [:title, :desc, :time, :completion, :user_id])
     |> unique_constraint(:title)
-    |> validate_required([:title, :desc, :time, :completion, :user_id])
+    |> validate_required([:title, :time, :completion, :user_id])
   end
 end

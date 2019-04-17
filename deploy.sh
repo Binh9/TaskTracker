@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PORT=4795
+export PORT=4799
 export NODEBIN=`pwd`/assets/node_modules/.bin
 export PATH="$PATH:$NODEBIN"
 export MIX_ENV=prod

@@ -3,8 +3,8 @@
 ## Design Choices 
   * Each task has title (required), description (optional), completed (required, but default is false), time (required, but default is 0), user (required). Title, completion, time and user fields are made required because these fields represent essential information required for creating a task. Description is optional because some tasks can be trivial and not require description at all. Time represents amount of time (minutes) spent working on the assigned task.
   * There are no duplicate emails allowed when registering a new user.
-  *
-  *
+  * Core functionality is supported
+  * Only if the user was assigned to the task, he can show/edit/delete. This way tasks can be differentiated
   
 
 To start your Phoenix server:
